@@ -13,7 +13,7 @@
 % -------------------------------------------------------------
 \RequirePackage{xifthen}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{12pt}
+\ExecuteOptions{11pt}
 
 % -------------------------------------------------------------
 % Create Booleans for this Class
@@ -58,12 +58,12 @@
 % Package Loading
 % -------------------------------------------------------------
 % GEOMETRY: set page size
-\RequirePackage[head=0.125in,%
-			top=0.9in,%
-			bottom=1in,%
-			inner=1in,%
-			outer=1in,
-			headheight=26pt,%
+\RequirePackage[head=10mm,%
+			top=10mm,%
+			bottom=20mm,%
+			inner=20mm,%
+			outer=20mm,
+			headheight=15mm,%
 			includeheadfoot]{geometry}
 
 % -------------------------------------------------------------
