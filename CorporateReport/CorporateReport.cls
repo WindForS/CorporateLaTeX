@@ -16,35 +16,6 @@
 \ExecuteOptions{11pt}
 
 % -------------------------------------------------------------
-% Create Booleans for this Class
-% -------------------------------------------------------------
-% Mark as draft
-
-% print links in black
-\newboolean{IsBlackLinks}
-\setboolean{IsBlackLinks}{false}
-\DeclareOption{blacklinks}{
-	\setboolean{IsBlackLinks}{true}
-	\typeout{Using black links}
-	}
-
-% draft?
-\newboolean{IsDraft}
-\setboolean{IsDraft}{false}
-\DeclareOption{draft}{
-	\setboolean{IsDraft}{true}
-	\typeout{Formatting as draft}
-	}
-
-% tagged?
-\newboolean{IsTagged}
-\setboolean{IsTagged}{false}
-\DeclareOption{tagged}{
-	\setboolean{IsTagged}{true}
-	\typeout{PDF will be tagged}
-	}
-	
-% -------------------------------------------------------------
 % Process Options
 % -------------------------------------------------------------
 \ProcessOptions\relax
@@ -69,6 +40,7 @@
 % For formatting the bibliography. See guidance 
 \RequirePackage[babel]{csquotes}
 \RequirePackage[style=chicago-authordate,strict,backend=bibtex,%
+			firstinits=true, %
 natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcitenames = 3 ]{biblatex}
 
 % -------------------------------------------------------------
