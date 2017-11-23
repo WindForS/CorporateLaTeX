@@ -8,6 +8,47 @@
 \typeout{ }
 
 % -------------------------------------------------------------
+% Create Booleans for this Class
+% -------------------------------------------------------------
+
+% print links in black
+\newboolean{IsBlackLinks}
+\setboolean{IsBlackLinks}{false}
+\DeclareOption{blacklinks}{
+	\setboolean{IsBlackLinks}{true}
+	\typeout{Using black links}
+	}
+
+% draft?
+\newboolean{IsDraft}
+\setboolean{IsDraft}{false}
+\DeclareOption{draft}{
+	\setboolean{IsDraft}{true}
+	\typeout{Formatting as draft}
+	}
+
+% tagged?
+\newboolean{IsTagged}
+\setboolean{IsTagged}{false}
+\DeclareOption{tagged}{
+	\setboolean{IsTagged}{true}
+	\typeout{PDF will be tagged}
+	}
+
+% logo?
+\newboolean{IsLogo}
+\setboolean{IsLogo}{false}
+\DeclareOption{logo}{
+	\setboolean{IsLogo}{true}
+	\typeout{PDF will have logo}
+	}
+
+% -------------------------------------------------------------
+% Process Options
+% -------------------------------------------------------------
+\ProcessOptions\relax
+
+% -------------------------------------------------------------
 % Short Title
 % -------------------------------------------------------------
 \newcommand\@shorttitle{}
@@ -219,7 +260,37 @@
 }
 
 % Section Headings
-\renewcommand{\section}{%
+\@ifclassloaded{CorporateCompact}%
+  {%true code%
+  % reduce spacing around headings
+   \renewcommand{\section}{%
+	\@startsection{section}{1}{\z@}
+	{-0.25ex \@plus -1ex \@minus -.2ex}
+	{0.25ex \@plus .2ex}
+	{\color{MainGreen}\fontsize{12}{14}\sbseries}}
+\renewcommand{\subsection}{%
+	\@startsection{subsection}{2}{\z@}
+	{-0.25ex \@plus -1ex \@minus -.2ex}
+	{0.25ex \@plus .2ex}
+	{\color{MainGreen}\normalsize\sbseries}}
+\renewcommand{\subsubsection}{%
+	\@startsection{subsubsection}{3}{\z@}
+	{-0.25ex \@plus -1ex \@minus -.2ex}
+	{0.25ex \@plus .2ex}
+	{\color{MainGreen}\normalsize\sbseries\itshape}}
+\renewcommand{\paragraph}{%
+	\@startsection{paragraph}{4}{\z@}
+	{-0.25ex \@plus -1ex \@minus -.2ex}
+	{0.25ex \@plus .2ex}
+	{\color{MainGreen}\normalsize\itshape}}
+\renewcommand{\subparagraph}{%
+	\@startsection{subparagraph}{5}{\z@}
+	{-0.25ex \@plus -1ex \@minus -.2ex}
+	{0.25ex \@plus .2ex}
+	{\color{MainGreen}\normalsize\itshape}}
+  }%
+  {%false code%
+  \renewcommand{\section}{%
 	\@startsection{section}{1}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
@@ -244,6 +315,8 @@
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
 	{\color{MainGreen}\normalsize\itshape}}
+}%
+
 
 % inherit fonts etc from TOC
 \let\printlottitle\printtoctitle
@@ -381,7 +454,11 @@
 \fancypagestyle{Corporate}{%
 	\fancyhf{} % clear all header and footer fields
 	\fancyfoot[C]{\color{TextGrey!50}\thepage} % except the center
-	\fancyhead[R]{\includegraphics[height=15mm]{../resources/logo}}
+	\ifthenelse{\boolean{IsLogo}}{ % true
+		\fancyhead[R]{\includegraphics[height=25pt]{../resources/logo}}%
+	}{ %False 
+		\fancyhead[R]{\color{TextGrey!50}\today}%
+	}
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0pt}}
 
