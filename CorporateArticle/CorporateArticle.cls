@@ -14,35 +14,6 @@
 \RequirePackage{xifthen}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ExecuteOptions{11pt}
-
-% -------------------------------------------------------------
-% Create Booleans for this Class
-% -------------------------------------------------------------
-% Mark as draft
-
-% print links in black
-\newboolean{IsBlackLinks}
-\setboolean{IsBlackLinks}{false}
-\DeclareOption{blacklinks}{
-	\setboolean{IsBlackLinks}{true}
-	\typeout{Using black links}
-	}
-
-% draft?
-\newboolean{IsDraft}
-\setboolean{IsDraft}{false}
-\DeclareOption{draft}{
-	\setboolean{IsDraft}{true}
-	\typeout{Formatting as draft}
-	}
-
-% tagged?
-\newboolean{IsTagged}
-\setboolean{IsTagged}{false}
-\DeclareOption{tagged}{
-	\setboolean{IsTagged}{true}
-	\typeout{PDF will be tagged}
-	}
 	
 % -------------------------------------------------------------
 % Process Options
