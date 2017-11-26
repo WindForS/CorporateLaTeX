@@ -14,43 +14,17 @@
 \RequirePackage{xifthen}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ExecuteOptions{12pt}
-
-% -------------------------------------------------------------
-% Create Booleans for this Class
-% -------------------------------------------------------------
-% Mark as draft
-
-% print links in black
-\newboolean{blacklinks}
-\setboolean{blacklinks}{true}
-
-% draft?
-\newboolean{IsDraft}
-\setboolean{IsDraft}{false}
-\DeclareOption{draft}{
-	\setboolean{IsDraft}{true}
-	\typeout{Formatting as draft}
-	}
-
-% tagged?
-\newboolean{IsTagged}
-\setboolean{IsTagged}{false}
-\DeclareOption{tagged}{
-	\setboolean{IsTagged}{true}
-	\typeout{PDF will be tagged}
-	}
-	
-% -------------------------------------------------------------
-% Process Options
-% -------------------------------------------------------------
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{12pt}
 \ProcessOptions\relax
 
 % -------------------------------------------------------------
 % Load Underlying Class File
 % -------------------------------------------------------------
 \LoadClass{article}
+
+% -------------------------------------------------------------
+% Footnote Formatting
+% -------------------------------------------------------------
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
 
 % -------------------------------------------------------------
 % Package Loading
@@ -67,7 +41,6 @@
 % -------------------------------------------------------------
 % Bibliography
 % -------------------------------------------------------------
-
 % Use numeric style for the bibliography
 \RequirePackage[babel]{csquotes}
 \RequirePackage[style=numeric,%
@@ -81,7 +54,7 @@
 			maxbibnames = 10,%
 			maxcitenames = 3]{biblatex}
 
-% suppress page numbers
+% suppress page numbers in the bibliography
 \AtEveryBibitem{%
    \clearfield{pages}%
 }
