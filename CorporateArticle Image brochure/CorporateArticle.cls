@@ -2,10 +2,10 @@
 % Identification Part
 % -------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{CorporateCompact}
+\ProvidesClass{CorporateArticle}
 \typeout{ }
-\typeout{CorporateCompact.cls -- v1.0, Last Updated May 23, 2017}
-\typeout{Formats articles using the common corporate style and reduced spacing}
+\typeout{CorporateArticle.cls -- v1.0, Last Updated May 23, 2017}
+\typeout{Formats articles using the common corporate style}
 \typeout{ }
 
 % -------------------------------------------------------------
@@ -13,57 +13,47 @@
 % -------------------------------------------------------------
 \RequirePackage{xifthen}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{12pt}
+\ExecuteOptions{11pt}
+	
+% -------------------------------------------------------------
+% Process Options
+% -------------------------------------------------------------
 \ProcessOptions\relax
 
 % -------------------------------------------------------------
 % Load Underlying Class File
 % -------------------------------------------------------------
-\LoadClass{article}
-
-% -------------------------------------------------------------
-% Footnote Formatting
-% -------------------------------------------------------------
-\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+\LoadClassWithOptions{article}
 
 % -------------------------------------------------------------
 % Package Loading
 % -------------------------------------------------------------
 % GEOMETRY: set page size
-\RequirePackage[head=0.125in,%
-	top=0.9in,%
-	bottom=1in,%
-	inner=1in,%
-	outer=1in,%
-	headheight=26pt,%
-	includeheadfoot]{geometry}
+\RequirePackage[head=10mm,%
+			top=10mm,%
+			bottom=20mm,%
+			inner=20mm,%
+			outer=20mm,
+			headheight=15mm,%
+			includeheadfoot]{geometry}
 
 % -------------------------------------------------------------
 % Bibliography
 % -------------------------------------------------------------
-% Use numeric style for the bibliography
+
+% Use author-date style for the bibliography
 \RequirePackage[babel]{csquotes}
-\RequirePackage[style=numeric,%
+\RequirePackage[style=chicago-authordate,%
+			strict,%
 			backend=bibtex,%
 			natbib=true,%
 			bibencoding=inputenc,%
 			sorting=nyt,%
-			url = false,%
 			doi=true,%
-			isbn = false,%
 			maxbibnames = 10,%
-			maxcitenames = 3]{biblatex}
-
-% suppress page numbers in the bibliography
-\AtEveryBibitem{%
-   \clearfield{pages}%
-}
-% reduce the font size in the bibliography
-\renewcommand*{\bibfont}{\small}
+			maxcitenames = 3 ]{biblatex}
 
 % -------------------------------------------------------------
 % Load Resource File
 % -------------------------------------------------------------
 \RequirePackage{../resources/CorporateResources}
-
-

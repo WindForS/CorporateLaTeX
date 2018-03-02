@@ -19,6 +19,14 @@
 	\typeout{Using black links}
 	}
 
+% keep things compact
+\newboolean{IsCompactLayout}
+\setboolean{IsCompactLayout}{false}
+\DeclareOption{compactlayout}{
+	\setboolean{IsCompactLayout}{true}
+	\typeout{Using compact layout}
+	}
+
 % draft?
 \newboolean{IsDraft}
 \setboolean{IsDraft}{false}
@@ -71,10 +79,36 @@
 \RequirePackage[american]{babel}
 
 % -------------------------------------------------------------
+% Set Margins 
+% -------------------------------------------------------------
+% Chose font
+
+\ifthenelse{\boolean{IsCompactLayout}}%
+  {%true code%
+	\RequirePackage[head=10mm,%
+				top=10mm,%
+				bottom=20mm,%
+				inner=20mm,%
+				outer=20mm,%
+				headheight=26pt,%
+				includeheadfoot]{geometry}
+  }%
+  {%false code%
+	\RequirePackage[head=10mm,%
+				top=10mm,%
+				bottom=20mm,%
+				inner=20mm,%
+				outer=20mm,
+				headheight=26mm,%
+				includeheadfoot]{geometry}
+}%
+
+
+% -------------------------------------------------------------
 % Fonts and Symbols
 % -------------------------------------------------------------
 % Chose font
-\usepackage[default,scale=0.95]{opensans}
+\RequirePackage[default,scale=0.95]{opensans}
 
 % set font encodings
 \RequirePackage[T1]{fontenc}
@@ -147,9 +181,45 @@
 % code listings
 \RequirePackage{listings}
 
+
 % -------------------------------------------------------------
 % Bibliography
 % -------------------------------------------------------------
+\ifthenelse{\boolean{IsCompactLayout}}%
+  {%true code%
+  % Use numeric style for the bibliography
+	\RequirePackage[babel]{csquotes}
+	\RequirePackage[style=numeric,%
+				backend=bibtex,%
+				natbib=true,%
+				bibencoding=inputenc,%
+				sorting=nyt,%
+				url = false,%
+				doi=true,%
+				isbn = false,%
+				maxbibnames = 10,%
+				maxcitenames = 3]{biblatex}
+
+	% suppress page numbers in the bibliography
+	\AtEveryBibitem{%
+   	\clearfield{pages}%
+	}
+	% reduce the font size in the bibliography
+	\renewcommand*{\bibfont}{\small}
+  }%
+  {%false code%
+	% Use author-date style for the bibliography
+	\RequirePackage[babel]{csquotes}
+	\RequirePackage[style=chicago-authordate,%
+				strict,%
+				backend=bibtex,%
+				natbib=true,%
+				bibencoding=inputenc,%
+				sorting=nyt,%
+				doi=true,%
+				maxbibnames = 10,%
+				maxcitenames = 3 ]{biblatex}
+}%
 
 % change the name of the bib (see http://tex.stackexchange.com/questions/82993/how-to-change-the-name-of-document-elements-like-figure-contents-bibliogr)
 \DefineBibliographyStrings{american}{%
@@ -232,8 +302,9 @@
 \newcommand{\mainmatter}{\textbf{Error defining main matter!}}
 \newcommand{\backmatter}{\textbf{Error defining back matter!}}
 
+
 % -------------------------------------------
-% Changes to the chapter and section markings
+% Chapter and section markings
 % -------------------------------------------
 % Assign numbers to headings chapter through subparagraph
 \setcounter{secnumdepth}{5}
@@ -260,7 +331,7 @@
 }
 
 % Section Headings
-\@ifclassloaded{CorporateCompact}%
+\ifthenelse{\boolean{IsCompactLayout}}%
   {%true code%
   % reduce spacing around headings
    \renewcommand{\section}{%
@@ -341,11 +412,27 @@
 \RequirePackage{chngcntr}
 \counterwithout{figure}{section}
 \counterwithout{table}{section}
+
+% --------------------
+% Footnotes
+% --------------------
+\ifthenelse{\boolean{IsCompactLayout}}%
+  {%true code%
+  % Use symbols for footnotes (conflicts with numbered citations, otherwise)
+  \renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+  }%
+  {%false code%
+}%
+
 \@ifclassloaded{report}{%
   % code for report
+  % footnote numbering should continue across chapters
   \counterwithout{footnote}{chapter}
 }
 
+% ---------------
+% Appendices
+% ---------------
 \@ifclassloaded{report}{%
   % code for report
   % deal with the appendix

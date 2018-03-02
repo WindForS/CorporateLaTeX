@@ -2,10 +2,10 @@
 % Identification Part
 % -------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{CorporateArticle}
+\ProvidesClass{CorporateCompact}
 \typeout{ }
-\typeout{CorporateArticle.cls -- v1.0, Last Updated May 23, 2017}
-\typeout{Formats articles using the common corporate style}
+\typeout{CorporateCompact.cls -- v1.0, Last Updated May 23, 2017}
+\typeout{Formats articles using the common corporate style and reduced spacing}
 \typeout{ }
 
 % -------------------------------------------------------------
@@ -13,11 +13,7 @@
 % -------------------------------------------------------------
 \RequirePackage{xifthen}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{11pt}
-	
-% -------------------------------------------------------------
-% Process Options
-% -------------------------------------------------------------
+\ExecuteOptions{12pt}
 \ProcessOptions\relax
 
 % -------------------------------------------------------------
@@ -25,8 +21,13 @@
 % -------------------------------------------------------------
 \LoadClassWithOptions{article}
 
+% -------------------------------------------------------------
+% Footnote Formatting
+% -------------------------------------------------------------
 
 % -------------------------------------------------------------
 % Load Resource File
 % -------------------------------------------------------------
 \RequirePackage{../resources/CorporateResources}
+
+
