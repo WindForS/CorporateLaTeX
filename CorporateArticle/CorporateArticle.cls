@@ -4,8 +4,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{CorporateArticle}
 \typeout{ }
-\typeout{CorporateArticle.cls -- v1.0, Last Updated May 23, 2017}
-\typeout{Formats articles using the common corporate style}
+\typeout{CorporateArticle.cls -- v1.1, Last Updated March 14, 2018}
+\typeout{Formats articles using a common corporate style}
 \typeout{ }
 
 % -------------------------------------------------------------
@@ -24,7 +24,6 @@
 % Load Underlying Class File
 % -------------------------------------------------------------
 \LoadClassWithOptions{article}
-
 
 % -------------------------------------------------------------
 % Load Resource File

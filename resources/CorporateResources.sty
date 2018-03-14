@@ -8,6 +8,13 @@
 \typeout{ }
 
 % -------------------------------------------------------------
+% For more information
+% -------------------------------------------------------------
+% https://www.sharelatex.com/learn/Writing_your_own_class
+% https://tex.stackexchange.com/questions/71341/base-a-class-on-another-class
+% https://tex.stackexchange.com/questions/250159/how-to-pass-title-or-other-parameter-to-class-file
+
+% -------------------------------------------------------------
 % Create Booleans for this Class
 % -------------------------------------------------------------
 
@@ -57,6 +64,12 @@
 \ProcessOptions\relax
 
 % -------------------------------------------------------------
+% Sub Title
+% -------------------------------------------------------------
+\newcommand\@subtitle{}
+\newcommand\subtitle[1]{\renewcommand\@subtitle{#1}}
+
+% -------------------------------------------------------------
 % Short Title
 % -------------------------------------------------------------
 \newcommand\@shorttitle{}
@@ -81,8 +94,6 @@
 % -------------------------------------------------------------
 % Set Margins 
 % -------------------------------------------------------------
-% Chose font
-
 \ifthenelse{\boolean{IsCompactLayout}}%
   {%true code%
 	\RequirePackage[head=10mm,%
@@ -99,16 +110,16 @@
 				bottom=20mm,%
 				inner=20mm,%
 				outer=20mm,
-				headheight=26mm,%
+				headheight=26pt,%
 				includeheadfoot]{geometry}
 }%
-
 
 % -------------------------------------------------------------
 % Fonts and Symbols
 % -------------------------------------------------------------
 % Chose font
 \RequirePackage[default,scale=0.95]{opensans}
+\normalfont
 
 % set font encodings
 \RequirePackage[T1]{fontenc}
@@ -148,15 +159,16 @@
 \definecolor{TextGrey}{HTML}{292929}
 \color{TextGrey}
 
+\newcommand{\headlinecolor}{\normalcolor}
+
 % set  link colors
 \ifthenelse{\boolean{IsBlackLinks}}{ % true
 	\definecolor{IntLinkColor}{named}{TextGrey}
 	\definecolor{ExtLinkColor}{named}{TextGrey}
 }{% false
-	\definecolor{IntLinkColor}{named}{SecondBlue}
-	\definecolor{ExtLinkColor}{named}{SignalRed}
+	\definecolor{IntLinkColor}{named}{MainGreen}
+	\definecolor{ExtLinkColor}{named}{MainGreen}
 }
-
 
 % -------------------------------------------------------------
 % Appearance
@@ -181,14 +193,13 @@
 % code listings
 \RequirePackage{listings}
 
-
 % -------------------------------------------------------------
 % Bibliography
 % -------------------------------------------------------------
+\RequirePackage[babel]{csquotes}
 \ifthenelse{\boolean{IsCompactLayout}}%
   {%true code%
   % Use numeric style for the bibliography
-	\RequirePackage[babel]{csquotes}
 	\RequirePackage[style=numeric,%
 				backend=bibtex,%
 				natbib=true,%
@@ -209,7 +220,6 @@
   }%
   {%false code%
 	% Use author-date style for the bibliography
-	\RequirePackage[babel]{csquotes}
 	\RequirePackage[style=chicago-authordate,%
 				strict,%
 				backend=bibtex,%
@@ -263,17 +273,17 @@
 % Set the headings for the TOC to be the same colors as section or chapter headings
 \@ifclassloaded{article}{%
   % code for article
-  \renewcommand{\cfttoctitlefont}{\color{MainGreen} \raggedright \fontsize{12}{14}\sbseries}
-  \renewcommand{\cftloftitlefont}{\color{MainGreen} \raggedright \fontsize{12}{14}\sbseries}  
-  \renewcommand{\cftlottitlefont}{\color{MainGreen} \raggedright \fontsize{12}{14}\sbseries}
+  \renewcommand{\cfttoctitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}
+  \renewcommand{\cftloftitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}  
+  \renewcommand{\cftlottitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}
   % add dotfill in toc
    \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 }{%
   \@ifclassloaded{report}{%
     % code for report
-    \renewcommand{\cfttoctitlefont}{\color{MainGreen} \raggedright \fontsize{14}{16}\sbseries}
-    \renewcommand{\cftloftitlefont}{\color{MainGreen} \raggedright \fontsize{14}{16}\sbseries}
-    \renewcommand{\cftlottitlefont}{\color{MainGreen} \raggedright \fontsize{14}{16}\sbseries}
+    \renewcommand{\cfttoctitlefont}{\color{TextGrey} \raggedright \fontsize{14}{16}\sbseries}
+    \renewcommand{\cftloftitlefont}{\color{TextGrey} \raggedright \fontsize{14}{16}\sbseries}
+    \renewcommand{\cftlottitlefont}{\color{TextGrey} \raggedright \fontsize{14}{16}\sbseries}
     \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
     % add dotfill in toc
     \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
@@ -281,7 +291,6 @@
     % else clause
   }%
 }
-
 
 % remove indentation
 \setlength{\cftfigindent}{0pt}
@@ -302,6 +311,142 @@
 \newcommand{\mainmatter}{\textbf{Error defining main matter!}}
 \newcommand{\backmatter}{\textbf{Error defining back matter!}}
 
+% -------------------------------------------
+% Author list
+% -------------------------------------------
+\@ifclassloaded{report}{%
+	% kill the existing author command
+	\let \author\undefined
+	
+	\newcounter{cntAuth}
+	% define an author command that can append names or place them in a specific location
+	\newcommand\author[2][]{%
+	  \ifstrempty{#1}{%
+	    \stepcounter{cntAuth}%
+	  \csdef{Author\thecntAuth}{#2}
+	  }{%
+	    \csdef{Author#1}{#2}
+	    \setcounter{cntAuth}{#1}
+	  }%
+	}
+	% get the value of the array
+	\newcommand\getAuthor[1]{%
+	  \csuse{Author#1}}
+	
+	% kill the existing affiliation command
+	\let \affil\undefined
+	
+	\newcounter{cntAffil}
+	% define an affiliation command that can append values or place them in a specific location
+	\newcommand\affiliation[2][]{%
+	  \ifstrempty{#1}{%
+	    \stepcounter{cntAffil}%
+	  \csdef{Affiliation\thecntAffil}{#2}
+	  }{%
+	    \csdef{Affiliation#1}{#2}
+	    \setcounter{cntAffil}{#1}
+	  }%
+	}
+	% get the value of the array
+	\newcommand\getAffil[1]{%
+	  \csuse{Affiliation#1}}
+}
+
+% -------------------------------------------
+% Title / Title Page
+% -------------------------------------------
+\@ifclassloaded{article}{%
+	% change the color of the title in the article class
+	\patchcmd{\@maketitle}% <cmd>
+		{\@title}% <search>
+		{\color{\@titlecolor}\@title}% <replace>
+		{}{}% <success><failure>
+	\newcommand{\@titlecolor}{MainGreen}
+	\newcommand{\titlecolor}[1]{\renewcommand{\@titlecolor}{#1}}
+}
+
+% https://tex.stackexchange.com/questions/10130/use-the-values-of-title-author-and-date-on-a-custom-title-page
+\@ifclassloaded{report}{%
+	% custom cover page
+	\renewcommand{\maketitle}{%
+		\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+
+		\sffamily
+	
+		%------------------------------------------------
+		%	Logo box
+		%------------------------------------------------
+		\includegraphics[height=100pt]{../resources/logo_windfors_uz_d_e}
+
+		% Space between the logo box and title
+		\vspace{1.4cm}
+
+		%------------------------------------------------
+		%	Grey title box
+		%------------------------------------------------
+		\definecolor{grey}{rgb}{0.9,0.9,0.9} % Colour of the box surrounding the title
+	
+		\colorbox{grey}{
+			\parbox[t]{\textwidth}{ % Outer full width box
+				\centering				 
+				\parbox[t]{0.9\textwidth}{ % Inner box for inner right text margin
+					%\raggedleft % Right align the text
+					\fontsize{36pt}{54pt}\selectfont % Title font size, the first argument is the font size and the second is the line spacing
+					\vspace{0.7cm} % Space between the start of the title and the top of the grey box
+					\@title\par
+					% check for a subtitle
+					\ifdefempty{\subtitle}{%
+						% empty
+						}{%
+						% defined
+						\vspace{0.35cm}
+						\fontsize{24pt}{36pt}\ltseries\selectfont
+						\textit{\@subtitle}\par}
+					\vspace{0.7cm} % Space between the end of the title and the bottom of the grey box
+				}
+			}
+		}
+		
+		%------------------------------------------------
+		%	Authors box
+		%------------------------------------------------
+
+		% Space between the title box and author information
+		\vspace{1.4cm}
+		
+		 % create a list of authors
+		\newcounter{authNum}%
+		\setcounter{authNum}{0}
+		% work through the list
+		\whileboolexpr
+		{test {\ifnumcomp{\value{authNum}}{<}{\thecntAuth}} } % test to see if the column number is less than the number of authors
+			{% If true
+				\stepcounter{authNum} {\large \getAuthor{\theauthNum}}\\
+			} % end of true
+
+		% Space between the authors and their affiliations
+		\vspace{1.4cm}
+
+		%create a list of affiliations
+		\newcounter{affilNum}%
+		\setcounter{affilNum}{0}
+		% work through the list
+		\whileboolexpr
+		{test {\ifnumcomp{\value{affilNum}}{<}{\thecntAffil}} } % test to see if the column number is less than the number of authors
+			{% If true
+				\stepcounter{affilNum} \textsuperscript{\theaffilNum} \getAffil{\theaffilNum}\\
+			} % end of true
+			
+		%------------------------------------------------
+		%	URL box
+		%------------------------------------------------
+		% push to bottom of page
+		\vfill	
+		\href{www.windfors.de}{www.windfors.de}
+
+		\end{titlepage}
+}
+}
 
 % -------------------------------------------
 % Chapter and section markings
@@ -314,7 +459,7 @@
   % code for report
   % Chapter Headings
 \renewcommand{\@makechapterhead}[1]{%
-	{\color{MainGreen} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
+	{\color{TextGrey} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
 	\ifnum \c@secnumdepth >\m@ne
 		\fontsize{14}{20}\sbseries
 		\thechapter \hspace*{1em}#1
@@ -324,7 +469,7 @@
 	\par\nobreak
 	\vspace*{12pt}}}
 \renewcommand{\@makeschapterhead}[1]{%
-	{\color{MainGreen} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
+	{\color{TextGrey} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
 	\fontsize{14}{20} \sbseries #1
 	\par\nobreak
 	\vspace*{12pt}}}
@@ -338,56 +483,55 @@
 	\@startsection{section}{1}{\z@}
 	{-0.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\fontsize{12}{14}\sbseries}}
+	{\color{TextGrey}\fontsize{12}{14}\sbseries}}
 \renewcommand{\subsection}{%
 	\@startsection{subsection}{2}{\z@}
 	{-0.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\sbseries}}
+	{\color{TextGrey}\normalsize\sbseries}}
 \renewcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}
 	{-0.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\sbseries\itshape}}
+	{\color{TextGrey}\normalsize\sbseries\itshape}}
 \renewcommand{\paragraph}{%
 	\@startsection{paragraph}{4}{\z@}
 	{-0.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\itshape}}
+	{\color{TextGrey}\normalsize\itshape}}
 \renewcommand{\subparagraph}{%
 	\@startsection{subparagraph}{5}{\z@}
 	{-0.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\itshape}}
+	{\color{TextGrey}\normalsize\itshape}}
   }%
   {%false code%
   \renewcommand{\section}{%
 	\@startsection{section}{1}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\fontsize{12}{14}\sbseries}}
+	{\color{TextGrey}\fontsize{12}{14}\sbseries}}
 \renewcommand{\subsection}{%
 	\@startsection{subsection}{2}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\sbseries}}
+	{\color{TextGrey}\normalsize\sbseries}}
 \renewcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\sbseries\itshape}}
+	{\color{TextGrey}\normalsize\sbseries\itshape}}
 \renewcommand{\paragraph}{%
 	\@startsection{paragraph}{4}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\itshape}}
+	{\color{TextGrey}\normalsize\itshape}}
 \renewcommand{\subparagraph}{%
 	\@startsection{subparagraph}{5}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{MainGreen}\normalsize\itshape}}
+	{\color{TextGrey}\normalsize\itshape}}
 }%
-
 
 % inherit fonts etc from TOC
 \let\printlottitle\printtoctitle
@@ -515,7 +659,7 @@
 	}
 
 % Add .pdf links
-	\RequirePackage[unicode,%
+\RequirePackage[unicode,%
 	final,%
 	pdfa,%
 	linktocpage,%
@@ -581,11 +725,10 @@
 	% fix hyperlinks
 	\hypersetup{
 		pdftitle = {\@title},
-		pdfauthor = {\@author}
+		%pdfauthor = {\expandafter{\@author}}
 		}
 	}
 \AfterEndPreamble{
-	\maketitle
+	%
 	}
 
-% end of file

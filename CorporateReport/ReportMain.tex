@@ -7,8 +7,13 @@
 % -----------------------------------
 % DOCUMENT PROPERTIES
 % -----------------------------------
-\title{Writing WindForS Reports using LaTeX}
-\author{A. Clifton}
+\title{Writing WindForS Reports Using LaTeX}
+\subtitle{A guide and template}
+\author[1]{Author A \textsuperscript{1,2}}
+\author[2]{Author D \textsuperscript{2}}
+\affiliation[1]{Department of Computer Science, \LaTeX\ University}
+\affiliation[2]{Department of Mechanical Engineering, \LaTeX\ University}
+
 \addbibresource{files/bibliography.bib}
 \setcounter{tocdepth}{1}
 % need to remove
@@ -16,6 +21,7 @@
 % DOCUMENT STARTS HERE
 % -------------------------------------
 \begin{document}
+\maketitle
 
 \frontmatter
 \input{files/ExecutiveSummary}
@@ -25,7 +31,7 @@
 \listoftables
 
 \mainmatter
-\lstset{language=[LaTeX]Tex,columns=fullflexible,keepspaces=true,breaklines=true}
+\lstset{language=[LaTeX]Tex, columns=fullflexible, keepspaces=true, breaklines=true}
 %% CHAPTER: WHAT IS LATEX
 \input{files/WhatIsLatex}
 %% CHAPTER: HOW TO MAKE LATEX DOCUMENTS %%
