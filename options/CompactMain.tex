@@ -2,14 +2,15 @@
 % ---------------
 % PREAMBLE
 % ---------------
-\documentclass[draft,twocolumn,compactlayout]{CorporateArticle}
+\documentclass[twocolumn,a4paper,logo,compactlayout]{CorporateArticle}
 
 % -----------------------------------
 % DOCUMENT PROPERTIES
 % -----------------------------------
 \title{Using LaTeX to Make Compact Documents}
-\author{Andrew Clifton\thanks{My Affiliation}}
-\date{April 2017}
+\shorttitle{LaTeX for WindForS}
+\author{A. Clifton}
+
 
 \addbibresource{../DemoFiles/bibliography.bib}
 
@@ -17,6 +18,8 @@
 % DOCUMENT STARTS HERE
 % -------------------------------------
 \begin{document}
+
+\lstset{language=[LaTeX]Tex,columns=fullflexible,keepspaces=true,breaklines=true}
 
 \maketitle
 
@@ -31,6 +34,12 @@ The \emph{compactlayout} option maintains all of the functionality of the \emph{
 \item Footnotes are marked using symbols to avoid confusion with citations.  
 \end{itemize}
 
+To use the \emph{compactlayout} option, define your document as follows:
+
+\begin{lstlisting}
+\documentclass[...,compactlayout,...]{CorporateArticle}
+\end{lstlisting}
+
 \clearpage
 
 \input{files/ExecutiveSummary}
@@ -38,7 +47,6 @@ The \emph{compactlayout} option maintains all of the functionality of the \emph{
 \listoffigures
 \listoftables
 
-\lstset{language=[LaTeX]Tex,columns=fullflexible,keepspaces=true,breaklines=true}
 %% CHAPTER: WHAT IS LATEX
 \input{files/WhatIsLatex}
 %% CHAPTER: HOW TO MAKE LATEX DOCUMENTS %%

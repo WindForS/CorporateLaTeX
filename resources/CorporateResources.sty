@@ -192,6 +192,7 @@
 
 % code listings
 \RequirePackage{listings}
+\lstset{basicstyle=\ttfamily}
 
 % -------------------------------------------------------------
 % Bibliography
@@ -556,6 +557,24 @@
 \RequirePackage{chngcntr}
 \counterwithout{figure}{section}
 \counterwithout{table}{section}
+
+% --------------------
+% List Formatting
+% --------------------
+\ifthenelse{\boolean{IsCompactLayout}}%
+	{%true code%
+	\RequirePackage{enumitem}
+	\setlist{align=left,
+		noitemsep,
+		topsep= 0pt,
+		parsep = 0pt,
+		leftmargin=*,
+		labelindent=0mm,
+		partopsep=0pt}
+	  }%
+  {%false code%
+}%
+
 
 % --------------------
 % Footnotes
