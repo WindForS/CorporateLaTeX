@@ -11,10 +11,26 @@ N.B. This repository is based on a fork from the [NREL LaTeX_editing repo](https
 # Installing and using the latex class file
 The `*.cls`  files should be installed either in your local latex tree or in the same directory as your .tex source files. 
 
-Call the class using something like `\documentclass[draft]{CorporateReport}` in your preamble. Options for the nrel class are discussed in the `CorporateReport.pdf` and `CorporateArticle.pdf` documents. Other classes include `CorporateArticle` and `CorporateBeamer`.
+Call the class using something like `\documentclass[a4paper,logo,twocolumn]{CorporateReport}` in your preamble. Options for the class are discussed in the `CorporateReport.pdf` and `CorporateArticle.pdf` documents.
 
 # Documentation
 Documentation is provided in an example `.pdf` file which can be found in each directory. The `.tex` source used to create that file may be useful as a template.
+
+# Troubleshooting
+## Can't find the CorporateResources class file
+You may need to move the `CorporateResources.cls` file from `/resources/` to the same directory as the `CorporateReport.cls` and `CorporateArticle.cls` files. Then, you will need to change the class to load `CorporateResources.cls` from the right place:
+
+    % -------------------------------------------------------------
+    % Load Resource File
+    % -------------------------------------------------------------
+    \RequirePackage{../resources/CorporateResources}
+    
+might then need to become
+
+    % -------------------------------------------------------------
+    % Load Resource File
+    % -------------------------------------------------------------
+    \RequirePackage{CorporateResources}
 
 # Reporting issues and errors
 Please use the [issue-tracker](../../issues) to report issues.
