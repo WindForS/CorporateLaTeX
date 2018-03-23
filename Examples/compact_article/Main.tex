@@ -1,0 +1,74 @@
+% This file demonstrates the use of the `CompactLayout` option to the CorporateArticle class
+% ---------------
+% PREAMBLE
+% ---------------
+\documentclass[twocolumn,a4paper]{article}
+
+\usepackage[logo,compactlayout]{../../WindForS}
+
+% -----------------------------------
+% DOCUMENT PROPERTIES
+% -----------------------------------
+\title{Using LaTeX to Make Compact Documents}
+\shorttitle{LaTeX for WindForS}
+\author{A. Clifton}
+
+
+\addbibresource{../common_files/bibliography.bib}
+
+% -------------------------------------
+% DOCUMENT STARTS HERE
+% -------------------------------------
+\begin{document}
+
+\lstset{language=[LaTeX]Tex,columns=fullflexible,keepspaces=true,breaklines=true}
+
+\section*{The \emph{compactlayout} Package Option}
+
+This document is based on the \texttt{article} demonstration document and uses the \emph{compactlayout} option to the \texttt{WindForS} class reduce the length of the document.
+
+The \emph{compactlayout} option maintains all of the functionality of the package, with the following changes:
+\begin{itemize}
+\item Reduced spacing for the title, section headings, and lists compared to normal.
+\item Numbered citations are used \citep[e.g.,][]{TechReportTest} instead of author-year. The authors names can be cited using the \emph{citeauthor} command, e.g., \citeauthor{TechReportTest} wrote \cite{TechReportTest}.
+\item Footnotes are marked using symbols to avoid confusion with citations.  
+\end{itemize}
+
+To use the \emph{compactlayout} option, call the \texttt{WindForS} package as follows:
+
+\begin{lstlisting}
+\usepackage[...,compactlayout,...]{WindForS}
+\end{lstlisting}
+
+The rest of this document uses exactly the same source as the other \texttt{article} class example.
+
+\clearpage
+
+\maketitle
+
+
+\input{files/ExecutiveSummary}
+\tableofcontents
+\listoffigures
+\listoftables
+
+%% CHAPTER: WHAT IS LATEX
+\input{files/WhatIsLatex}
+%% CHAPTER: HOW TO MAKE LATEX DOCUMENTS %%
+\input{files/LatexForCorporateDocs}
+%% CHAPTER: MAKING PDFS
+\input{files/PDFPrep}
+%% ACK
+\input{files/Acknowledgments}
+%% CHAPTER: APPENDICES
+
+% bibliography
+\label{sec:TheBibliography}
+\printbibliography
+
+\appendix
+\input{files/AppendixA}
+\input{files/AppendixB}
+
+
+\end{document}

@@ -1,0 +1,48 @@
+% This file demonstrates the use of the `WindForS` style
+% ---------------
+% PREAMBLE
+% ---------------
+\documentclass[twocolumn,a4paper]{article}
+
+\usepackage[logo]{../../WindForS}
+
+% -----------------------------------
+% DOCUMENT PROPERTIES
+% -----------------------------------
+\title{Writing WindForS Articles using LaTeX}
+\shorttitle{LaTeX for WindForS}
+\author{A. Clifton}
+\addbibresource{../common_files/bibliography.bib}
+\setcounter{tocdepth}{1}
+% need to remove
+% -------------------------------------
+% DOCUMENT STARTS HERE
+% -------------------------------------
+\begin{document}
+\maketitle
+
+\input{files/ExecutiveSummary}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\lstset{language=[LaTeX]Tex,columns=fullflexible,keepspaces=true,breaklines=true}
+%% CHAPTER: WHAT IS LATEX
+\input{files/WhatIsLatex}
+%% CHAPTER: HOW TO MAKE LATEX DOCUMENTS %%
+\input{files/LatexForCorporateDocs}
+%% CHAPTER: MAKING PDFS
+\input{files/PDFPrep}
+%% ACK
+\input{files/Acknowledgments}
+%% CHAPTER: APPENDICES
+
+% bibliography
+\label{sec:TheBibliography}
+\printbibliography
+
+\appendix
+\input{files/AppendixA}
+\input{files/AppendixB}
+
+\end{document}
