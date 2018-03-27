@@ -1,14 +1,16 @@
-The \texttt{listings} package has been loaded. Note: this does not work if the `Draft' document option is used.
+The \texttt{listings} package has been loaded. Note: this does not work if the `draft' document option is used.
 
-To insert code with syntax highlighting, you can use the \texttt{lstlisting} environment, for example \verb+\begin{lstlisting} ...\end{lstlisting}+.
+To insert code with syntax highlighting, you can use the \texttt{lstlisting} environment, for example
 
-You can change the language that is used to control the syntax highlighting using \verb+\lstset{language=[dialect]language}+. For example, this document uses...
+ \verb+\begin{lstlisting} ...\end{lstlisting}+.
+
+You can change the language that is used to control the syntax highlighting using \verb+\lstset{language=[dialect]language}+. This document uses...
 
 \begin{lstlisting}
 \lstset{language=[LaTeX]Tex,columns=fullflexible,keepspaces=true,breaklines=true}
 \end{lstlisting}
 
-... because most of the code is LaTeX. This can be changed for each block of code, however (and should be changed back afterwards). For example, the next block of code is written in C.
+... because most of the code is LaTeX. This can be changed for each block of code but should be changed back afterwards. For example, the next block of code is written in C.
 
 \lstset{language=c}
 \begin{lstlisting}

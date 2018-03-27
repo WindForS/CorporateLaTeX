@@ -5,14 +5,17 @@ A WindForS style file has been written to format documents created with the late
 Options can be passed to the WindForS style in the preamble:
 
 \begin{lstlisting}
-\usepackage[option 1, ..., option n]{WindForS}
+\usepackage[option 1 = true, ..., option n= string]{WindForS}
 \end{lstlisting}
 
 Options include:
 \begin{description}
-\item[compact]{reduce white space around headings and lists.}
-\item[draft]{add a `draft' watermark to all pages.}
-\item[blacklinks]{make all links the same color as the rest of the body text.}
+\item[blackLinks = true]{make all links the same color as the rest of the body text.}
+\item[compactLayout = true]{reduce white space around headings and lists.}
+\item[draft = true]{add a `draft' watermark to all pages.}
+\item[logo = true]{show the WindForS logo in headers (defaults to true).}
+\item[logoPath = ...]{use a specific file for the logo (defaults to \emph{./logo.png}).}
+\item[coverLogoPath = ...]{use a specific file for the logo on the front cover of reports (defaults to \emph{./logo\_windfors\_uz\_d\_e.png}).}
 \end{description}
 
 The \emph{WindForS} package calls other packages listed in Table \ref{Tab:Packages}. These packages often call other packages, so this is not an exhaustive list.
