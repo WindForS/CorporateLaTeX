@@ -5,6 +5,9 @@ The _WindForS_ package is implemented using a style file, in this case `WindForS
 
 This repository also contains examples of _article_ and _report_ documents that use the _WindForS_ package.
 
+# Download
+Download the most recent release here: https://github.com/WindForS/CorporateLatex/releases
+
 # Contents of this repository
 You'll find the following files in this repository:
 * Style file: `WindForS.sty` implements the _WindForS_ package, which can be called from a .tex file.
