@@ -26,7 +26,7 @@ Then call the package using `\usepackage[logo]{WindForS}`. More details about th
 Documentation is provided in PDF files in the `/examples` directory. The PDFs all have the same content. Source .tex files are provided that could be used as templates.
 
 # Troubleshooting
-Please make sure that you have the current release (see `/releases`) and have updated all of the packages in your latex distribution.
+Please make sure that you have the current release (see https://github.com/WindForS/CorporateLatex/releases) and have updated all of the packages in your latex distribution.
 
 ## MikTex Compatability
 Release v1.2 provides MikTex compatability. Earlier versions did not compile under MikTex.
