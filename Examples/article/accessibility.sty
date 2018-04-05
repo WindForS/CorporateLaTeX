@@ -1,33 +1,63 @@
-%% accessibilityMeta.sty
-%% Additions and changes are copyright 2015 Andrew Clifton
-%% Code from accessibility.sty copyright 2007 Babett Schalitz (see below)
-%
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%   http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
-%
-% This work has the LPPL maintenance status `maintained'.
-% 
-% The Current Maintainer of this work is Andrew Clifton.
-%
-% This work consists of the file accessibilityMeta.sty.
-%
-% The file accessibilityMeta.sty is a derived work under the terms of the 
-% LPPL. It is based on version 1 of accessibility.sty by Babett Schalitz.
-% A copy of accessibility.sty is available from http://www.babs.gmxhome.de/download/da_pdftex/accessibility.sty.
+%%
+%% This is file `accessibility.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% access.tex  (with options: `package')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from accessibility.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file access.tex.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+\iffalse
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% accessibility.sty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright 2007 Babett Schalitz
+%%
+%% This material is subject to the LaTeX Project Public License. See
+%% http://www.ctan.org/tex-archive/help/Catalogue/licenses.lppl.html
+%% for the details of that license.
+%%
+%% This package allows to produce tagged PDF output following Adobe's
+%% PDF-1.5 and 1.6 specifications.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \CheckSum{2882}
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fi
 
-\ProvidesPackage{accessibilityMeta}[2015/08/16 v. 1.0]
+\ProvidesPackage{accessibility}[2007/03/13 v. 1.0]
 \NeedsTeXFormat{LaTeX2e}
 
 \RequirePackage{xkeyval}
 \RequirePackage{ifthen}
-\RequirePackage{count1to}
-
-\advance\count1 by 1
 
 \newcounter{StructTree}%
 \pdfobj reserveobjnum%
@@ -52,7 +82,7 @@
 \DeclareOption{tagged}{\setboolean{@tagged@pdf}{true}}%
 \DeclareOption{untagged}{\setboolean{@tagged@pdf}{false}}%
 \DeclareOption*{%
-   \PackageWarning{accessibilityMeta}{Unknown Option \CurrentOption}}%
+   \PackageWarning{accessibility}{Unknown Option \CurrentOption}}%
 \ProcessOptions\relax%
 
 
@@ -64,7 +94,7 @@
       \setboolean{@right@pdfversion}{false}%
       }{%pdflatex in PDF mode
       \ifthenelse{\pdftexversion<120}{%
-          \PackageError{accessibilityMeta}%
+          \PackageError{accessibility}%
           {pdfTeX/pdfLaTeX version >= 1.20 required for direct PDF outut}%
           {Try to install a more recent version!}%
       }{%
@@ -86,7 +116,7 @@
 \@ifclassloaded{scrbook}  {\setboolean{@KOMAScriptClass}{true}}{}%
 \@ifclassloaded{scrartcl} {\setboolean{@KOMAScriptClass}{true}}{}%
 \ifthenelse{\boolean{@KOMAScriptClass}}{%
-                \PackageInfo{accessibilityMeta}{KOMAscript Klasse}}{}%
+                \PackageInfo{accessibility}{KOMAscript Klasse}}{}%
 
 \newboolean{@StandardClass} \setboolean{@StandardClass}{false}%
 
@@ -95,11 +125,11 @@
 \@ifclassloaded{article}{\setboolean{@StandardClass}{true}}{}%
 
 \ifthenelse{\boolean{@StandardClass}}{%
-               \PackageInfo{accessibilityMeta}{Standardklasse}}{}%
+               \PackageInfo{accessibility}{Standardklasse}}{}%
 
-\pdfcompresslevel=0% Damit wird die PDF-Quelldatei lesbar
-\pdfoptionpdfminorversion=6% Bestimmt die PDF - Version der Ausgabe
- %\pdfadjustspacing=0% 0, 1 oder 2 ?nderung nicht erkannt
+%\pdfcompresslevel=0% Damit wird die PDF-Quelldatei lesbar
+%\pdfoptionpdfminorversion=6% Bestimmt die PDF - Version der Ausgabe
+ %\pdfadjustspacing=0% 0, 1 oder 2 Änderung nicht erkannt
 
 \newcommand{\alt}[1]{\xdef\altAttr{#1}}%
 \newcommand{\newhref}[3]{\xdef\altAttr{#2}\href{#1}{#3}}%
@@ -118,7 +148,7 @@
 \newcount\@stackdepth \@stackdepth=0%
 \def\accessPushStack#1#2#3#4{%
    \ifnum \@stackdepth >15\relax%
-        \PackageWarning{accessibilityMeta}{too deep}%
+        \PackageWarning{accessibility}{too deep}%
    \else%
         \global\advance\@stackdepth\@ne%
    \fi%
@@ -168,10 +198,10 @@
   \expandafter\xdef\csname PDF@#1@Array\endcsname{}%
   \accessPushStack{#1}{\theObjHelp}{PDF@#1@Array}{#2}%drauftun
 }%
-{%andere Ebenen Schlie?en
+{%andere Ebenen Schließen
   \accessPopStack\StructElem\Objnum\KidsArray\Title %runterholen
   \ifx \StructElem\empty%
-    \PackageWarning{accessibilityMeta}{empty \string\PopStack ?}%
+    \PackageWarning{accessibility}{empty \string\PopStack ?}%
   \else%
     %\convertLanguageInCode{\languagename}%
     \gdef\TitleHelp{}%
@@ -187,6 +217,7 @@
     \immediate \pdfobj useobjnum\number\Objnum{<</Type /StructElem %
         /P \ParentElem\space 0 R %
         \TitleHelp %
+        /C /Normal %
         \space\LanguageCode %
         /K [\csname \KidsArray\endcsname] %
         /S /\StructElem>>}%
@@ -257,13 +288,14 @@
   \ifnum \@stackdepth <1\relax%
        \xdef\ParentElem{\theStructTree}%
        \xdef\ParentArray{Karray}%
-       %\PackageWarning{accessibilityMeta}{stackdepth<1}%
+       %\PackageWarning{accessibility}{stackdepth<1}%
   \else%
        \accessReadTopStack\ParentStructElem\ParentElem\ParentArray%
   \fi%
   %\convertLanguageInCode{\languagename}%
   \immediate \pdfobj useobjnum\theTextObjNum{<</Type /StructElem %
      /P \ParentElem \space 0 R %
+     /C /Normal %
      /K [\TextArray] %
      /S /\TextType %
     \space\LanguageCode>>}%
@@ -308,6 +340,7 @@
   \fi%
   \immediate \pdfobj useobjnum\theTextObjNum{<</Type /StructElem %
      /P \ParentElem \space 0 R %
+     /C /Normal %
      /K [\TextArray] %
      /S /\TextType %
     \space\LanguageCode %
@@ -346,10 +379,10 @@
 {%
   \endPDFMarkContent%
   \ifthenelse{\equal{\Type}{Reference} \or \equal{\Type}{Link}}{%
-    \xdef\ReferenceArray{<</Type /MCR /Pg \pdfpageref\count1 \space \space 0 R /MCID \theObjNum>>}%
+    \xdef\ReferenceArray{<</Type /MCR /Pg \pdfpageref\thepage \space \space 0 R /MCID \theObjNum>>}%
     \ifthenelse{\pdftexversion>139}{%
       \setcounter{ObjHelp}{\pdflastlink}%     %<< /Type /OBJR /Obj 600 0 R >>
-      %\PackageWarning{accessibilityMeta}{Objektnummer vom letzten Link: \theObjHelp}%
+      %\PackageWarning{accessibility}{Objektnummer vom letzten Link: \theObjHelp}%
       \ifthenelse{\theObjHelp>0}{%
         \xdef\ReferenceArray{\ReferenceArray\space <</Type /OBJR /Obj \theObjHelp\space 0 R>>}%
       }{}%
@@ -370,7 +403,7 @@
    \xdef\InlineObj{#2}%
 }
 
-%%Setzt die Variablen auf die Standardwerte f?r eine normale Texterkennung.
+%%Setzt die Variablen auf die Standardwerte für eine normale Texterkennung.
 \newcommand{\EveryparReset}{%
    \xdef\everyparStructElem{P}%
    \xdef\InlineObj{false}%
@@ -386,11 +419,11 @@
   \pdfliteral{/\everyparStructElem\space <</MCID \theTaggedObj>> BDC}%
   \ifthenelse{\equal{\InlineObj}{false}}{% Text
     %\ifthenelse{\equal{\themypage}{\thepage}}{}{%
-       %\PackageWarning{accessibilityMeta}{unterschiedlich \thepage<>\themypage; MCID \theTaggedObj}
+       %\PackageWarning{accessibility}{unterschiedlich \thepage<>\themypage; MCID \theTaggedObj}
     %}%
     \xdef\TextArray{\TextArray \space <</Type /MCR %
         %/Pg \pdfpageref\thepage \space \space 0 R %
-        /Pg \pdfpageref\count1 \space \space 0 R %
+        /Pg \pdfpageref\themypage \space \space 0 R %
         /MCID \theTaggedObj>>}%
   }{}%
   \ifthenelse{\equal{\InlineObj}{true}}{%  inline-Objekt
@@ -421,10 +454,9 @@
   }%
   \immediate \pdfobj {<</Type /StructElem %
     /P \theTextObjNum \space 0 R %
+    /C /Normal %
     /K <</Type /MCR %
-    	% this fix allows roman numerals to be used
-         % /Pg \pdfpageref\thepage \space \space 0 R %
-         /Pg \pdfpageref\count1 \space \space 0 R %
+         /Pg \pdfpageref\thepage \space \space 0 R %
          /MCID #1>> %
     /S /#2 %
     \space\LanguageCode %
@@ -442,13 +474,14 @@
   \ifthenelse{\equal{#5}{Page}}{% Seitenreferenz angeben
     \immediate \pdfobj useobjnum#1{<</Type /StructElem %
       /P #4\space 0 R %
-      % /Pg \pdfpageref\thepage \space \space 0 R %
-      /Pg \pdfpageref\count1 \space \space 0 R %
+      /Pg \pdfpageref\thepage \space \space 0 R %
+      /C /Normal %
       /K [#2] %
       /S #3 \space\LanguageCode>>}%
     }{%keine Seitenreferenz angeben
     \immediate \pdfobj useobjnum#1{<</Type /StructElem %
       /P #4\space 0 R %
+      /C /Normal %
       /K [#2] %
       /S #3>>}%
   }%
@@ -504,7 +537,7 @@
        >>} \pdfrefobj \pdflastobj%
    %\global\setcounter{ClassMap}{\pdflastobj}%
   \pdfobj {<<%
-            /IndexItem /Span % Indexeintr?ge
+            /IndexItem /Span % Indexeinträge
             /TOF /TOC % Table of Figures
             /TOFI /TOCI % Table of Figures Eintrag
             /TOT /TOC % Table of Tables
@@ -513,7 +546,7 @@
             /Bibliography /L % Bibligraphy
             /BibItem /LI % BibligraphyItem
             /ParagraphSpan /Span % geteilte Paragraphen am Seitenumbruch
-            /Footnote /Note %  Fu?notentext
+            /Footnote /Note %  Fußnotentext
             /Chapter /Sect%
             /Section /Sect%
             /Subsection /Sect%
@@ -542,7 +575,7 @@
       %/Metadata \theStructTree\space 0 R%
       }%
   \ifthenelse{\boolean{ACCESSProblems}}{%
-     \PackageWarningNoLine{accessibilityMeta}{%
+     \PackageWarningNoLine{accessibility}{%
         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\MessageBreak
         @@ There were non-defined Figure Alt-Tags! @@\MessageBreak
         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@}%
@@ -555,7 +588,7 @@
 \newcount\linenopenalty\linenopenalty=-100000%
 \mathchardef\linenopenaltypar=32000%
   %
-  %%%%%%%%%%%%%Ver?ndern der Outputroutine%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%Verändern der Outputroutine%%%%%%%%%%%%%%%%%%%%%%%%
 \ifthenelse{\boolean{@Access@pdf}}{%
   \let\@tempa\output%
   \newtoks\output%
@@ -754,7 +787,9 @@
   \def\testNextNumberedPage#1{%
    \ifx#1\relax%
      \global\def\NumberedPageCache{\gotNumberedPage0000}%
-     \PackageWarning{accessibilityMeta}{Changed paragraphs, rerun to get it right}%
+     %\PackageWarning{accessibility}{Changed paragraphs, rerun to get it right}%
+     \PackageError{accessibility}{Changed paragraphs, rerun to get it right}%
+                                 {Changed paragraphs, rerun to get it right}%
    \else%
      \global\let\NumberedPageCache#1%
    \fi%
@@ -924,7 +959,7 @@
   \PDFSect{Chapter}{#1} \originaladdchap{#1} \endPDFSect}%
 
 \ifthenelse{\boolean{@Access@pdf}}{%
-  \@ifundefined{set@preamble}{% es gibt keine set@preamble au?erhalb des KOMA-Scripts
+  \@ifundefined{set@preamble}{% es gibt keine set@preamble außerhalb des KOMA-Scripts
     }{%
     \let\originaluse@preamble\use@preamble%
     \renewcommand{\use@preamble}[1]{%
@@ -1107,9 +1142,9 @@
     \let\originallstinputlisting\lstinputlisting%
     \renewcommand{\lstinputlisting}[2][]{%
       \PDFSpezialTextObj{Code}%
-      \PackageWarning{accessibilityMeta}{Codeinput}%
+      \PackageWarning{accessibility}{Codeinput}%
       \originallstinputlisting[#1]{#2}%
-      \PackageWarning{accessibilityMeta}{codeinput}%
+      \PackageWarning{accessibility}{codeinput}%
       \endPDFMarkContent%
       \endPDFSpezialTextObj%
     }%
@@ -1117,7 +1152,7 @@
     \let\originallstenv@Process\lstenv@Process%
     \renewcommand{\lstenv@Process}{%
       \PDFSpezialTextObj{Code}%
-      \PackageWarning{accessibilityMeta}{begin code}%
+      \PackageWarning{accessibility}{begin code}%
       \originallstenv@Process%
     }%
     \let\originallstenv@End\lstenv@End%
@@ -1125,7 +1160,7 @@
       \originallstenv@End%
       \endPDFMarkContent%
       \endPDFSpezialTextObj%
-      \PackageWarning{accessibilityMeta}{end code}%
+      \PackageWarning{accessibility}{end code}%
     }%
     %lstinline!var i:integer;!
   }{}%
@@ -1134,7 +1169,7 @@
 
 \ifthenelse{\boolean{@Access@pdf}}{%
   \@ifpackageloaded{thmbox}{%
-    \PackageWarning{accessibilityMeta}%
+    \PackageWarning{accessibility}%
         {The thmbox-package isn't yet supported.}%
   }{}%
   \@ifpackageloaded{theorem}{%
@@ -1182,7 +1217,7 @@
   \ifItemActive \closeItem\fi%
   %Liste beginnen
   \addtocounter{ListDepth}{1}%
-  %\PDFStructObj{L}{\empty}% Sonst Fehler bei Zugriffspr?fung AA
+  %\PDFStructObj{L}{\empty}% Sonst Fehler bei Zugriffsprüfung AA
   \PDFStructObj{L\arabic{ListDepth}}{\empty}%
   %\PDFStructObj{L\romannumeral\theListDepth}{\empty}%
 }{%
@@ -1204,10 +1239,10 @@
   \endPDFSpezialTextObj%
   \PDFSpezialTextObj{LBody}%
   \EveryparConfig{LBody}{false}%
-  %\PDFMarkContent{LBody}% wird ?ber everypar erledigt
+  %\PDFMarkContent{LBody}% wird über everypar erledigt
 }%
 
-\newcommand{\closeItem}{% Altes Item abschlie?en
+\newcommand{\closeItem}{% Altes Item abschließen
   \endPDFMarkContent%
   \endPDFSpezialTextObj%{LBody}
   \endPDFStructObj%
@@ -1319,10 +1354,10 @@
     \PDFSpezialTextObj{Caption}%
     \EveryparConfig{Caption}{false}%
     \PDFMarkContent%
-    \PackageWarning{accessibilityMeta}{begin makecaption}%
+    \PackageWarning{accessibility}{begin makecaption}%
 %        \original@@makecaption{#1}{#2}{#3}%
         \original@@makecaption{#1}{#2}%{#3}%
-    \PackageWarning{accessibilityMeta}{end makecaption}%
+    \PackageWarning{accessibility}{end makecaption}%
     \endPDFMarkContent%
     \endPDFSpezialTextObj%{Caption}%
     \global\numberingparstrue%
@@ -1393,8 +1428,8 @@
     \originaltabular%
   }{%
     %\pdfliteral{EMC}%
+    \def&{\originalamp}%
     \originalendtabular%
-    \def&{\originalamp}%    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \ifTableCellActive\endPDFTableCell\fi%
     \ifTableLineActive\endPDFTableLine\fi%
@@ -1477,7 +1512,7 @@
     %\renewcommand{\hyper@anchorstart}{\pdfliteral{/Span <</E (anchorstart)>> BDC EMC}\originalhyper@anchorstart}%
     %\let\originalhyper@anchorend\hyper@anchorend%
     %\renewcommand{\hyper@anchorend}{\originalhyper@anchorend\pdfliteral{/Span <</E (anchorend)>> BDC EMC}}%
-    % Eintr?ge im TOC, LOF, LOT
+    % Einträge im TOC, LOF, LOT
     %\let\originalhyper@linkstart\hyper@linkstart%
     %\renewcommand{\hyper@linkstart}{%
     %    \begin{PDFInlineObjInText}{Reference}%
@@ -1486,7 +1521,7 @@
     %\renewcommand{\hyper@linkend}{%
     %     \originalhyper@linkend%
     %    \end{PDFInlineObjInText}}%
-    %\useacronym --> Kurzform, Glossarseitezahlen, indexseitenzahlen, Glossareintr?ge, Hyperlink
+    %\useacronym --> Kurzform, Glossarseitezahlen, indexseitenzahlen, Glossareinträge, Hyperlink
     \let\originalhyperlink\hyperlink%
     \renewcommand*{\hyperlink}[2]{%
         \ifIndexItemActive\else\begin{PDFInlineObjInText}{Reference}\fi%
@@ -1508,8 +1543,8 @@
         \begin{PDFInlineObjInText}{Link}%
         \originalhyper@linkfile{#1}{#2}{#3}%
         \end{PDFInlineObjInText}}%
-    %Seitenzahlen in Index, anders da anschlie?end keine Texterkennung n?tig.
-    %eigentlich ?ber hyperlink m?glich
+    %Seitenzahlen in Index, anders da anschließend keine Texterkennung nötig.
+    %eigentlich über hyperlink möglich
     \let\originalhyperpage\hyperpage%
     \renewcommand{\hyperpage}[1]{%
         \EveryparConfig{Reference}{true}%
@@ -1615,14 +1650,14 @@
 
 \ifthenelse{\boolean{@Access@pdf}}{%
   \let\original@footnotemark\@footnotemark%
-  %Fu?notenreferenz im Text
+  %Fußnotenreferenz im Text
   \renewcommand{\@footnotemark}{%
     \begin{PDFFootnoteReference}%
     \original@footnotemark%
     \end{PDFFootnoteReference}%
   }%
   \let\original@makefntext\@makefntext%
-  %Fu?notentext am Seitenende
+  %Fußnotentext am Seitenende
   \renewcommand{\@makefntext}[1]{%
     \begin{PDFFootnoteText}%
     \original@makefntext{#1}%
@@ -1712,11 +1747,11 @@
     \ifthenelse{\equal{#1}{__empty__}}%
         {\originalbibitem{#2}}%
         {\originalbibitem[#1]{#2}}%
-    %\endPDFMarkContent% Zu fr?h, Text wird erst mit everypar gestetzt
+    %\endPDFMarkContent% Zu früh, Text wird erst mit everypar gestetzt
     \endPDFSpezialTextObj%
     \PDFSpezialTextObj{LBody}%
     \EveryparConfig{LBody}{false}%
-   %\PDFMarkContent{LBody}% wird ?ber everypar erledigt
+   %\PDFMarkContent{LBody}% wird über everypar erledigt
   }%
 }{}
 \newif\ifIndexItemActive \IndexItemActivefalse%
@@ -1805,7 +1840,7 @@
    %\hrule height1ex depth0pt width1ex
    %
    %hrulefill, hline cline, toprule, midrule, bottomrule, cmidrule? greifen auf hrule zu
-  %Klappt nicht immer mit Argument?bergabe
+  %Klappt nicht immer mit Argumentübergabe
   \let\originalhrule\hrule%
   \def\hrule#1#2{%
     \ifthenelse{\equal{#2}{\z@}}{}{\begin{PDFLayoutArtefakt}}%
@@ -1814,7 +1849,7 @@
   }%
 
   %vline (2), @arrayrule(2?) greift auf vrule zu
-  %Klappt nicht mit Argument?bergabe
+  %Klappt nicht mit Argumentübergabe
   %\let\originalvrule\vrule%
   %\def\vrule#1#2{%
   %  \begin{PDFLayoutArtefakt}%
@@ -1895,13 +1930,15 @@
 
 \newcommand{\convertLanguageInCode}[1]{%
   \gdef\LanguageCode{}%
-  %
+  %Dänisch
   \ifthenelse{\equal{#1}{\string danish}}{\gdef\LanguageCode{/Lang(DA)}}{}%
+  %Deutsch
   \ifthenelse{\equal{#1}{\string german}}{\gdef\LanguageCode{/Lang(DE)}}{}%
   \ifthenelse{\equal{#1}{\string ngerman}}{\gdef\LanguageCode{/Lang(DE)}}{}%
   \ifthenelse{\equal{#1}{\string germanb}}{\gdef\LanguageCode{/Lang(DE)}}{}%
   \ifthenelse{\equal{#1}{\string austrian}}{\gdef\LanguageCode{/Lang(DE)}}{}%
   \ifthenelse{\equal{#1}{\string naustrian}}{\gdef\LanguageCode{/Lang(DE)}}{}%
+  %Englisch
   \ifthenelse{\equal{#1}{\string english}}{\gdef\LanguageCode{/Lang(EN)}}{}%
   \ifthenelse{\equal{#1}{\string USenglish}}{\gdef\LanguageCode{/Lang(EN-US)}}{}%
   \ifthenelse{\equal{#1}{\string american}}{\gdef\LanguageCode{/Lang(EN-US)}}{}%
@@ -1910,32 +1947,34 @@
   \ifthenelse{\equal{#1}{\string canadian}}{\gdef\LanguageCode{/Lang(EN)}}{}%
   \ifthenelse{\equal{#1}{\string australian}}{\gdef\LanguageCode{/Lang(EN)}}{}%
   \ifthenelse{\equal{#1}{\string newzealand}}{\gdef\LanguageCode{/Lang(EN)}}{}%
+  %Finnisch
   \ifthenelse{\equal{#1}{\string finnish}}{\gdef\LanguageCode{/Lang(FI)}}{}%
+  %Französisch
   \ifthenelse{\equal{#1}{\string french}}{\gdef\LanguageCode{/Lang(FR)}}{}%
   \ifthenelse{\equal{#1}{\string francais}}{\gdef\LanguageCode{/Lang(FR)}}{}%
   \ifthenelse{\equal{#1}{\string canadien}}{\gdef\LanguageCode{/Lang(FR)}}{}%
   \ifthenelse{\equal{#1}{\string acadian}}{\gdef\LanguageCode{/Lang(FR)}}{}%
+  %Italienisch
   \ifthenelse{\equal{#1}{\string italian}}{\gdef\LanguageCode{/Lang(IT)}}{}%
+  %Norwegisch
   \ifthenelse{\equal{#1}{\string norsk}}{\gdef\LanguageCode{/Lang(NO)}}{}%
   \ifthenelse{\equal{#1}{\string nynorsk}}{\gdef\LanguageCode{/Lang(NO)}}{}%
+  %Portugiesisch %(Brasilien)
   \ifthenelse{\equal{#1}{\string portuges}}{\gdef\LanguageCode{/Lang(PT)}}{}%
   \ifthenelse{\equal{#1}{\string portuguese}}{\gdef\LanguageCode{/Lang(PT)}}{}%
   \ifthenelse{\equal{#1}{\string brazilian}}{\gdef\LanguageCode{/Lang(PT-BR)}}{}%
   \ifthenelse{\equal{#1}{\string brazil}}{\gdef\LanguageCode{/Lang(PT-BR)}}{}%
+  %Schwedisch
   \ifthenelse{\equal{#1}{\string swedish}}{\gdef\LanguageCode{/Lang(SV)}}{}%
+  %Spanisch
   \ifthenelse{\equal{#1}{\string spanish}}{\gdef\LanguageCode{/Lang(ES)}}{}%
-  \ifthenelse{\equal{#1}{\string japanese}}{\gdef\LanguageCode{/Lang (JA)}}{}%
-  \ifthenelse{\equal{#1}{\string dutch}}{\gdef\LanguageCode{/Lang(NL)}}{}%
-  %
-  % No support in babel:
-  % Chinese /Lang(ZH)
-  % Korean  /Lang (KO)
-  %
+  %Chinesisch %\ifthenelse{\equal{#1}{}{\gdef\LanguageCode{/Lang(ZH)}}{}%
+  %Japanisch %\ifthenelse{\equal{#1}{}{\gdef\LanguageCode{/Lang (JA)}}{}%
+  %Koreanisch %\ifthenelse{\equal{#1}{}{\gdef\LanguageCode{/Lang (KO)}}{}%
+  %Niederländisch %\ifthenelse{\equal{#1}{}{\gdef\LanguageCode{/Lang(NL)}}{}%
   \ifthenelse{\equal{\LanguageCode}{}}{%
-      % Comparing \languagename is tricky (see babel documentation for \languagename for details),
-      % so give the user a hint here to use the babel package to fix the error.
-      \PackageWarning{accessibilityMeta}{You may need to use the babel package or the chosen language %
-                                     (#1) is not supported by Adobe Acrobat Reader 6.}%
+      \PackageWarning{accessibility}{Die gewählte Sprache (#1) wird vom %
+                             Adobe Acrobat Reader 6.0 nicht unterstützt.}%
   }{}%
 }
 
@@ -1952,7 +1991,7 @@
 
 \newcommand{\recognizeLanguageChange}[1]{%
   \ifthenelse{\equal{#1}{\ActualLanguage}}{%
-     %keine ?nderung zu vorher
+     %keine Änderung zu vorher
   }{%
      \gdef\ActualLanguage{#1}%
      \convertLanguageInCode{\languagename}}%
@@ -2089,19 +2128,6 @@ The command name specified by \string\newacronym already exists.}}}
   }{}%
 }{}
 
-
-% The count1to package confuses hyperref (see hyperref README), so fix \theH<...>:
-\@ifpackageloaded{hyperref}{%
-  \AtBeginDocument{%
-    \ifthenelse{\isundefined{\theHchapter}}{\newcommand{\theHchapter}{0}}{}%
-    \renewcommand*{\theHsection}{\theHchapter.\arabic{section}}%
-    \renewcommand*{\theHsubsection}{\theHsection.\arabic{subsection}}%
-    \renewcommand*{\theHsubsubsection}{\theHsubsection.\arabic{subsubsection}}%
-    \renewcommand*{\theHparagraph}{\theHsubsubsection.\arabic{paragraph}}%
-    \renewcommand*{\theHsubparagraph}{\theHparagraph.\arabic{subparagraph}}%
-  }%
-}%
-
 \endinput
 %%
-%% End of file `accessibilityMeta.sty'.
+%% End of file `accessibility.sty'.
