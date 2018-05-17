@@ -2,10 +2,10 @@
 % Identification Part
 % -------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{WindForS}
+\ProvidesPackage{windfors}
 \typeout{ }
-\typeout{WindForS.sty -- v1.0, Last Updated May 23, 2017}
-\typeout{Format different types of document to a WindForS style}
+\typeout{windfors.sty -- v1.1, Last Updated May 15, 2018}
+\typeout{Format different types of document to a windfors style}
 \typeout{ }
 
 % -------------------------------------------------------------
@@ -16,6 +16,11 @@
 % https://tex.stackexchange.com/questions/250159/how-to-pass-title-or-other-parameter-to-class-file
 
 % -------------------------------------------------------------
+% Check Loaded Packages
+% -------------------------------------------------------------
+\RequirePackage[l2tabu, orthodox]{nag}
+
+% -------------------------------------------------------------
 % Get and process inputs for this Class
 % -------------------------------------------------------------
 % see https://tex.stackexchange.com/questions/109194/boolean-switch-for-conditional-statement-after-its-definition?rq=1
@@ -23,8 +28,8 @@
 \RequirePackage{kvoptions}
 
 \SetupKeyvalOptions{
-    family = WFS,
-    prefix =WFS@
+    family = CPT,
+    prefix =CPT@
 }
 
 %  blackLinks; print links in black [T/F]
@@ -47,7 +52,7 @@
 \DeclareStringOption[logo.png]{logoPath}
 
 % coverLogoPath
-\DeclareStringOption[logo_windfors_uz_d_e.png]{coverLogoPath}
+\DeclareStringOption[logo_big.png]{coverLogoPath}
 
 % -------------------------------------------------------------
 % Process Options
@@ -59,33 +64,33 @@
     draft=false,
     logo=true,
     logoPath=logo.png,
-    coverLogoPath=logo_windfors_uz_d_e.png}
+    coverLogoPath=logo_big.png}
 
-\ProcessKeyvalOptions{WFS}
+\ProcessKeyvalOptions{CPT}
 
 % blackLinks
-\ifWFS@blackLinks
+\ifCPT@blackLinks
 \setboolean{IsBlackLinks}{true}
 \else
 \setboolean{IsBlackLinks}{false}
 \fi
 
 % compactLayout
-\ifWFS@compactLayout
+\ifCPT@compactLayout
 \setboolean{IsCompactLayout}{true}
 \else
 \setboolean{IsCompactLayout}{false}
 \fi
 
 % draft
-\ifWFS@draft
+\ifCPT@draft
 \setboolean{IsDraft}{true}
 \else
 \setboolean{IsDraft}{false}
 \fi
 
 % logo
-\ifWFS@logo
+\ifCPT@logo
 \setboolean{IsLogo}{true}
 \else
 \setboolean{IsLogo}{false}
@@ -114,33 +119,25 @@
 \newcommand\shorttitle[1]{\renewcommand\@shorttitle{#1}}
 
 % -------------------------------------------------------------
-% Check Packages
-% -------------------------------------------------------------
-\RequirePackage[l2tabu, orthodox]{nag}
-
-% -------------------------------------------------------------
-% Set PDF Properties
-% -------------------------------------------------------------
-%\pdfinterwordspaceon
-\RequirePackage{pdf14}
-
-% -------------------------------------------------------------
 % Set Document Language
 % -------------------------------------------------------------
 \RequirePackage[american]{babel}
 
 % -------------------------------------------------------------
-% Set Margins 
+% Set Margins
 % -------------------------------------------------------------
 \ifthenelse{\boolean{IsCompactLayout}}%
 {%true code%
     \RequirePackage[head=10mm,%
     top=10mm,%
     bottom=20mm,%
-    inner=20mm,%
-    outer=20mm,%
+    inner=15mm,%
+    outer=15mm,%
     headheight=26pt,%
     includeheadfoot]{geometry}
+
+    % set the gap between columns
+    \setlength{\columnsep}{10mm}
 }%
 {%false code%
     \RequirePackage[head=10mm,%
@@ -150,6 +147,10 @@
     outer=20mm,
     headheight=26pt,%
     includeheadfoot]{geometry}
+
+    % set the gap between columns
+    \setlength{\columnsep}{10mm}
+
 }%
 
 % -------------------------------------------------------------
@@ -187,25 +188,31 @@
 \RequirePackage{color}
 \RequirePackage{xcolor}
 % see example of colors here https://tex.stackexchange.com/questions/18008/use-css-style-color-specifications-in-xcolor
-\definecolor{MainGreen}{HTML}{87AD3F}
-\definecolor{SecondBlue}{HTML}{009EE3}
-\definecolor{SecondGrey}{HTML}{485049}
-\definecolor{SignalRed}{HTML}{E63D11}
-\definecolor{SignalYellow}{HTML}{F2E400}
+\definecolor{MainColor}{HTML}{87AD3F}
+\definecolor{AccentColor1}{HTML}{009EE3}
+\definecolor{AccentColor2}{HTML}{E63D11}
 
-% set font color
-\definecolor{TextGrey}{HTML}{292929}
-\color{TextGrey}
+% set normal text color
+\definecolor{NormalTextColor}{HTML}{292929}
+\color{NormalTextColor}
+
+% set heading colors
+\definecolor{ChapterHeadingColor}{named}{MainColor}
+\definecolor{SectionHeadingColor}{named}{MainColor}
+\definecolor{SubSectionHeadingColor}{named}{NormalTextColor}
+\definecolor{SubSubSectionHeadingColor}{named}{NormalTextColor}
+\definecolor{ParagraphHeadingColor}{named}{NormalTextColor}
+\definecolor{SubParagraphHeadingColor}{named}{NormalTextColor}
 
 \newcommand{\headlinecolor}{\normalcolor}
 
 % set link colors
 \ifthenelse{\boolean{IsBlackLinks}}{ % true
-    \definecolor{IntLinkColor}{named}{TextGrey}
-    \definecolor{ExtLinkColor}{named}{TextGrey}
+    \definecolor{IntLinkColor}{named}{NormalTextColor}
+    \definecolor{ExtLinkColor}{named}{NormalTextColor}
 }{% false
-    \definecolor{IntLinkColor}{named}{MainGreen}
-    \definecolor{ExtLinkColor}{named}{MainGreen}
+    \definecolor{IntLinkColor}{named}{MainColor}
+    \definecolor{ExtLinkColor}{named}{AccentColor1}
 }
 
 % -------------------------------------------------------------
@@ -249,7 +256,7 @@
     isbn = false,%
     maxbibnames = 10,%
     maxcitenames = 3]{biblatex}
-    
+
     % suppress page numbers in the bibliography
     \AtEveryBibitem{%
         \clearfield{pages}%
@@ -312,27 +319,27 @@
 % Set the headings for the TOC to be the same colors as section or chapter headings
 \@ifclassloaded{article}{%
     % code for article
-    \renewcommand{\cfttoctitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}
-    \renewcommand{\cftloftitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}  
-    \renewcommand{\cftlottitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}
+    \renewcommand{\cfttoctitlefont}{\color{NormalTextColor} \raggedright \fontsize{12}{14}\sbseries}
+    \renewcommand{\cftloftitlefont}{\color{NormalTextColor} \raggedright \fontsize{12}{14}\sbseries}
+    \renewcommand{\cftlottitlefont}{\color{NormalTextColor} \raggedright \fontsize{12}{14}\sbseries}
     % add dotfill in toc
     \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 }
 
 \@ifclassloaded{scrartcl}{%
     % code for article
-    \renewcommand{\cfttoctitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}
-    \renewcommand{\cftloftitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}  
-    \renewcommand{\cftlottitlefont}{\color{TextGrey} \raggedright \fontsize{12}{14}\sbseries}
+    \renewcommand{\cfttoctitlefont}{\color{NormalTextColor} \raggedright \fontsize{12}{14}\sbseries}
+    \renewcommand{\cftloftitlefont}{\color{NormalTextColor} \raggedright \fontsize{12}{14}\sbseries}
+    \renewcommand{\cftlottitlefont}{\color{NormalTextColor} \raggedright \fontsize{12}{14}\sbseries}
     % add dotfill in toc
     \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 }
 
 \@ifclassloaded{report}{%
     % code for report
-    \renewcommand{\cfttoctitlefont}{\color{TextGrey} \raggedright \fontsize{14}{16}\sbseries}
-    \renewcommand{\cftloftitlefont}{\color{TextGrey} \raggedright \fontsize{14}{16}\sbseries}
-    \renewcommand{\cftlottitlefont}{\color{TextGrey} \raggedright \fontsize{14}{16}\sbseries}
+    \renewcommand{\cfttoctitlefont}{\color{NormalTextColor} \raggedright \fontsize{14}{16}\sbseries}
+    \renewcommand{\cftloftitlefont}{\color{NormalTextColor} \raggedright \fontsize{14}{16}\sbseries}
+    \renewcommand{\cftlottitlefont}{\color{NormalTextColor} \raggedright \fontsize{14}{16}\sbseries}
     \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
     % add dotfill in toc
     \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
@@ -363,7 +370,7 @@
 \@ifclassloaded{report}{%
     % kill the existing author command
     \let \author\undefined
-    
+
     \newcounter{cntAuth}
     % define an author command that can append names or place them in a specific location
     \newcommand\author[2][]{%
@@ -378,10 +385,10 @@
     % get the value of the array
     \newcommand\getAuthor[1]{%
         \csuse{Author#1}}
-    
+
     % kill the existing affiliation command
     \let \affil\undefined
-    
+
     \newcounter{cntAffil}
     % define an affiliation command that can append values or place them in a specific location
     \newcommand\affiliation[2][]{%
@@ -407,7 +414,7 @@
     {\@title}% <search>
     {\color{\@titlecolor}\@title}% <replace>
     {}{}% <success><failure>
-    \newcommand{\@titlecolor}{MainGreen}
+    \newcommand{\@titlecolor}{MainColor}
     \newcommand{\titlecolor}[1]{\renewcommand{\@titlecolor}{#1}}
 }
 
@@ -417,7 +424,7 @@
     {\@title}% <search>
     {\color{\@titlecolor}\@title}% <replace>
     {}{}% <success><failure>
-    \newcommand{\@titlecolor}{MainGreen}
+    \newcommand{\@titlecolor}{MainColor}
     \newcommand{\titlecolor}[1]{\renewcommand{\@titlecolor}{#1}}
 }
 
@@ -426,25 +433,25 @@
     % custom cover page
     \renewcommand{\maketitle}{%
         \begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
-            
+
             \sffamily
-            
+
             %------------------------------------------------
             %	Logo box
             %------------------------------------------------
-            \includegraphics[height=100pt]{\WFS@coverLogoPath}
-            
+            \includegraphics[height=100pt]{\CPT@coverLogoPath}
+
             % Space between the logo box and title
             \vspace{1.4cm}
-            
+
             %------------------------------------------------
             %	Grey title box
             %------------------------------------------------
             \definecolor{grey}{rgb}{0.9,0.9,0.9} % Colour of the box surrounding the title
-            
+
             \colorbox{grey}{
                 \parbox[t]{\textwidth}{ % Outer full width box
-                    \centering				 
+                    \centering
                     \parbox[t]{0.9\textwidth}{ % Inner box for inner right text margin
                         %\raggedleft % Right align the text
                         \fontsize{36pt}{54pt}\selectfont % Title font size, the first argument is the font size and the second is the line spacing
@@ -462,14 +469,14 @@
                     }
                 }
             }
-            
+
             %------------------------------------------------
             %	Authors box
             %------------------------------------------------
-            
+
             % Space between the title box and author information
             \vspace{1.4cm}
-            
+
             % create a list of authors
             \newcounter{authNum}%
             \setcounter{authNum}{0}
@@ -479,10 +486,10 @@
             {% If true
                 \stepcounter{authNum} {\large \getAuthor{\theauthNum}}\\
             } % end of true
-            
+
             % Space between the authors and their affiliations
             \vspace{1.4cm}
-            
+
             %create a list of affiliations
             \newcounter{affilNum}%
             \setcounter{affilNum}{0}
@@ -492,38 +499,39 @@
             {% If true
                 \stepcounter{affilNum} \textsuperscript{\theaffilNum} \getAffil{\theaffilNum}\\
             } % end of true
-            
+
             % Space after affiliations
             \vspace{1.4cm}
-            
+
             %------------------------------------------------
             %	Date box
             %------------------------------------------------
             Published on \@date
-            
+
             %------------------------------------------------
             %	URL box
             %------------------------------------------------
             % push to bottom of page
-            \vfill	
-            \href{www.windfors.de}{www.windfors.de}
-            
+            \vfill
+            \href{www.example.com}{www.example.com}
+
         \end{titlepage}
     }
 }
 
-% -------------------------------------------
-% Chapter and section markings
-% -------------------------------------------
+%-----------------------
+% SECTION HEADING FORMATTING
+%-----------------------
+
 % Assign numbers to headings chapter through subparagraph
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
 
+% Chapter Headings
 \@ifclassloaded{report}{%
     % code for report
-    % Chapter Headings
     \renewcommand{\@makechapterhead}[1]{%
-        {\color{TextGrey} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
+        {\color{ChapterHeadingColor} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
             \ifnum \c@secnumdepth >\m@ne
             \fontsize{14}{20}\sbseries
             \thechapter \hspace*{1em}#1
@@ -533,7 +541,7 @@
             \par\nobreak
             \vspace*{12pt}}}
     \renewcommand{\@makeschapterhead}[1]{%
-        {\color{TextGrey} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
+        {\color{ChapterHeadingColor} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
             \fontsize{14}{20} \sbseries #1
             \par\nobreak
             \vspace*{12pt}}}
@@ -547,61 +555,63 @@
         \@startsection{section}{1}{\z@}
         {6pt}
         {3pt}
-        {\color{TextGrey}\fontsize{12}{6}\sbseries}}
+        {\color{SectionHeadingColor}\fontsize{12}{6}\sbseries}}
     \renewcommand{\subsection}{%
         \@startsection{subsection}{2}{\z@}
         {3pt}
         {1pt}
-        {\color{TextGrey}\normalsize\sbseries}}
+        {\color{SubSectionHeadingColor}\normalsize\sbseries}}
     \renewcommand{\subsubsection}{%
         \@startsection{subsubsection}{3}{\z@}
         {3pt}
         {1pt}
-        {\color{TextGrey}\normalsize\sbseries\itshape}}
+        {\color{SubSubSectionHeadingColor}\normalsize\sbseries\itshape}}
     \renewcommand{\paragraph}{%
         \@startsection{paragraph}{4}{\z@}
         {0pt}
         {-6pt}
-        {\color{TextGrey}\normalsize\itshape}}
+        {\color{ParagraphHeadingColor}\normalsize\itshape}}
     \renewcommand{\subparagraph}{%
         \@startsection{subparagraph}{5}{\z@}
         {-0.25ex \@plus -1ex \@minus -.2ex}
         {0.25ex \@plus .2ex}
-        {\color{TextGrey}\normalsize\itshape}}
+        {\color{SubParagraphHeadingColor}\normalsize\itshape}}
 }%
 {%false code%
     \renewcommand{\section}{%
         \@startsection{section}{1}{\z@}
         {12pt}
         {6pt}
-        {\color{TextGrey}\fontsize{12}{12}\sbseries}}
+        {\color{SectionHeadingColor}\fontsize{12}{12}\sbseries}}
     \renewcommand{\subsection}{%
         \@startsection{subsection}{2}{\z@}
         {6pt}
         {3pt}
-        {\color{TextGrey}\normalsize\sbseries}}
+        {\color{SubSectionHeadingColor}\normalsize\sbseries}}
     \renewcommand{\subsubsection}{%
         \@startsection{subsubsection}{3}{\z@}
         {3pt}
         {3pt}
-        {\color{TextGrey}\normalsize\sbseries\itshape}}
+        {\color{SubSubSectionHeadingColor}\normalsize\sbseries\itshape}}
     \renewcommand{\paragraph}{%
         \@startsection{paragraph}{4}{\z@}
         {0pt}
         {-6pt}
-        {\color{TextGrey}\normalsize\itshape}}
+        {\color{ParagraphHeadingColor}\normalsize\itshape}}
     \renewcommand{\subparagraph}{%
         \@startsection{subparagraph}{5}{\z@}
         {-3.25ex \@plus -1ex \@minus -.2ex}
         {0.25ex \@plus .2ex}
-        {\color{TextGrey}\normalsize\itshape}}
+        {\color{SubParagraphHeadingColor}\normalsize\itshape}}
 }%
 
 % inherit fonts etc from TOC
 \let\printlottitle\printtoctitle
 \let\printloftitle\printtoctitle
 
-% Format Captions
+%-----------------------
+% CAPTION FORMATTING
+%-----------------------
 % see e.g. http://www.peteryu.ca/tutorials/publishing/latex_captions for details of how to adjust
 \RequirePackage[format=plain,
 labelformat=simple,
@@ -616,31 +626,14 @@ tableposition=top,
 figureposition=bottom]{caption}
 \RequirePackage{subcaption}
 
-% number figures and tables continuously across chapters
-\RequirePackage{chngcntr}
-\counterwithout{figure}{section}
-\counterwithout{table}{section}
+% Reports include the chapter number in figure and table labels
+\@ifclassloaded{report}{%
+    \numberwithin{table}{chapter}
+    \numberwithin{figure}{chapter}
+}
 
 % --------------------
-% List Formatting
-% --------------------
-\ifthenelse{\boolean{IsCompactLayout}}%
-{%true code%
-    \RequirePackage{enumitem}
-    \setlist{align=left,
-        noitemsep,
-        topsep= 0pt,
-        parsep = 0pt,
-        leftmargin=*,
-        labelindent=0mm,
-        partopsep=0pt}
-}%
-{%false code%
-}%
-
-
-% --------------------
-% Footnotes
+% FOOTNOTE FORMATTING
 % --------------------
 \ifthenelse{\boolean{IsCompactLayout}}%
 {%true code%
@@ -650,83 +643,132 @@ figureposition=bottom]{caption}
 {%false code%
 }%
 
-\@ifclassloaded{report}{%
-    % code for report
-    % footnote numbering should continue across chapters
-    \counterwithout{footnote}{chapter}
-}
+% ---------------
+% FORMATTING IN DIFFERENT PARTS / CHAPTERS
+% ---------------
+% We can define \frontmatter, \mainmatter, and \backmatter for all types of document.
+% There is also an appendix.
 
-% ---------------
-% Appendices
-% ---------------
+
 \@ifclassloaded{article}{%
-    % code for article
-    % deal with the appendix
-    \renewcommand\appendix{\par 
-        \setcounter{section}{0} 
-        \setcounter{footnote}{0} 
+    % figure and table number restarts and changes at the frontmatter, mainmatter, and backmatter.
+
+    % front matter
+    \renewcommand{\frontmatter}{%
+        \pagenumbering{roman} %
+        \setcounter{page}{3} %
+        \setcounter{figure}{0} %
+        \renewcommand{\thefigure}{\Alph{figure}} %
+        \setcounter{table}{0} %
+        \renewcommand{\thetable}{\Alph{table}}}
+
+    % main matter
+    \renewcommand{\mainmatter}{%
+        \clearpage %
+        \pagenumbering{arabic} %
+        \setcounter{figure}{0} %
+        \setcounter{table}{0}}
+
+    % appendix
+    \renewcommand\appendix{\par
+        \setcounter{section}{0}
+        \setcounter{footnote}{0}
         \gdef\thesection{\@Alph\c@section}
-        % counters should reset each section
-        \counterwithin{figure}{section}
-        \counterwithin{table}{section}
         % footnote formatting
         \renewcommand*{\thefootnote}{\fnsymbol{footnote}}}
+
+    % back matter
+    \renewcommand{\backmatter}{\par
+        \setcounter{section}{0}
+        \setcounter{footnote}{0}
+        \gdef\thesection{\@Alph\c@section}
+        % footnote formatting
+        \renewcommand*{\thefootnote}{\fnsymbol{footnote}}}
+
 }
 
 \@ifclassloaded{scrartcl}{%
-    % code for article
-    % deal with the appendix
-    \renewcommand\appendix{\par 
-        \setcounter{section}{0} 
-        \setcounter{footnote}{0} 
+    % figure and table number restarts and changes at the frontmatter, mainmatter, and backmatter.
+
+    % front matter
+    \renewcommand{\frontmatter}{%
+        \pagenumbering{roman} %
+        \setcounter{page}{3} %
+        \setcounter{figure}{0} %
+        \renewcommand{\thefigure}{\Alph{figure}} %
+        \setcounter{table}{0} %
+        \renewcommand{\thetable}{\Alph{table}}}
+
+    % main matter
+    \renewcommand{\mainmatter}{%
+        \clearpage %
+        \pagenumbering{arabic} %
+        \setcounter{figure}{0} %
+        \setcounter{table}{0}}
+
+    % appendix
+    \renewcommand\appendix{\par
+        \setcounter{section}{0}
+        \setcounter{footnote}{0}
         \gdef\thesection{\@Alph\c@section}
-        % counters should reset each section
-        \counterwithin{figure}{section}
-        \counterwithin{table}{section}
+        % footnote formatting
+        \renewcommand*{\thefootnote}{\fnsymbol{footnote}}}
+
+    % back matter
+    \renewcommand{\backmatter}{\par
+        \setcounter{section}{0}
+        \setcounter{footnote}{0}
+        \gdef\thesection{\@Alph\c@section}
         % footnote formatting
         \renewcommand*{\thefootnote}{\fnsymbol{footnote}}}
 }
 
 \@ifclassloaded{report}{%
-    % code for report
+    % Figure and table numbering should include chapter
+    \numberwithin{table}{chapter}
+    \numberwithin{figure}{chapter}
+
+    % front matter
+    \renewcommand{\frontmatter}{%
+        \pagenumbering{roman} %
+        \setcounter{page}{3} %
+        \setcounter{figure}{0} %
+        %\renewcommand{\thefigure}{\Alph{figure}} %
+        \setcounter{table}{0} %
+        %\renewcommand{\thetable}{\Alph{table}}
+    }
+
+    % main matter
+    \renewcommand{\mainmatter}{%
+        \clearpage %
+        \pagenumbering{arabic} %
+        \setcounter{figure}{0} %
+        \setcounter{table}{0}}
+
     % deal with the appendix
     \renewcommand\appendix{\par
-        \setcounter{chapter}{0} 
+        \setcounter{chapter}{0}
         \setcounter{section}{0}
-        \setcounter{footnote}{0} 
+        \setcounter{footnote}{0}
         \gdef\thechapter{\@Alph\c@chapter}
-        % counters should reset each chapter
-        \counterwithin{figure}{chapter}
-        \counterwithin{table}{chapter}
+
+        % footnote formatting
+        \renewcommand*{\thefootnote}{\fnsymbol{footnote}}}
+
+    % back matter
+    \renewcommand{\backmatter}{\par
+        \setcounter{section}{0}
+        \setcounter{footnote}{0}
+        \gdef\thesection{\@Alph\c@section}
         % footnote formatting
         \renewcommand*{\thefootnote}{\fnsymbol{footnote}}}
 }
-
-
-
-% Note that if we use the front matter / main matter, we have to change numbers
-% need to renew the front, main, and back matter commands
-\renewcommand{\frontmatter}{%
-    \pagenumbering{roman} %
-    \setcounter{page}{3} %
-    \setcounter{figure}{0} %
-    \renewcommand{\thefigure}{\Alph{figure}} %
-    \setcounter{table}{0} %
-    \renewcommand{\thetable}{\Alph{table}}}
-\renewcommand{\mainmatter}{%
-    \clearpage %
-    \pagenumbering{arabic} %
-    \setcounter{figure}{0} %
-    \renewcommand{\thefigure}{\arabic{figure}} %
-    \setcounter{table}{0} %
-    \renewcommand{\thetable}{\arabic{table}}}
-\renewcommand{\backmatter}{}
 
 % Indenting and spacing between paragraphs
 \setlength{\parindent}{0pt}
 
 %-----------------------
-% GENERAL CODE
+% GENERAL FORMATTING
 %-----------------------
 % Require at least 3 characters before a hyphenation.
 \lefthyphenmin=3
@@ -753,15 +795,29 @@ figureposition=bottom]{caption}
 }{% False
 }
 
+% Compact lists
+\ifthenelse{\boolean{IsCompactLayout}}%
+{%true code%
+    \RequirePackage{enumitem}
+    \setlist{align=left,
+        noitemsep,
+        topsep= 0pt,
+        parsep = 0pt,
+        leftmargin=*,
+        labelindent=0mm,
+        partopsep=0pt}
+}%
+{%false code%
+}%
+
 % Enable tooltips
 \RequirePackage[linewidth = 1,%
 open = true]{pdfcomment}
 
-% Add .pdf links
+% Format document links
 \RequirePackage{hyperref}
 \hypersetup{unicode,%
     final,%
-    pdfa,%
     linktocpage,%
     colorlinks,%
     breaklinks=true,%
@@ -773,20 +829,19 @@ open = true]{pdfcomment}
     pdfborder={0 0 0},%
     pdflang={en-US}}
 
-
 %---------------------------------
-% HEADER AND FOOTER
+% HEADER AND FOOTER FORMATTING
 %----------------------------------
 
-% need to add page number and availability information to every page, including new chapters.
+% Add page number and availability information to every page, including new chapters.
 \RequirePackage{fancyhdr}
 \fancypagestyle{Corporate}{%
     \fancyhf{} % clear all header and footer fields
-    \fancyfoot[C]{\color{TextGrey!50}\thepage} % except the center
+    \fancyfoot[C]{\color{NormalTextColor!50}\thepage} % except the center
     \ifthenelse{\boolean{IsLogo}}{ % true
-        \fancyhead[R]{\includegraphics[height=25pt]{\WFS@logoPath}}%
-    }{ %False 
-        \fancyhead[R]{\color{TextGrey!50}\today}%
+        \fancyhead[R]{\includegraphics[height=25pt]{\CPT@logoPath}}%
+    }{ %False
+        \fancyhead[R]{\color{NormalTextColor!50}\today}%
     }
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}}
@@ -797,21 +852,23 @@ open = true]{pdfcomment}
 
 \@ifclassloaded{report}{%
     % use the chapter name as the running title
-    \fancyhead[L]{\color{TextGrey!50}\leftmark}
+    \fancyhead[L]{\color{NormalTextColor!50}\leftmark}
 }{}
 \@ifclassloaded{article}{%
     % use the short title name as the running title
-    \fancyhead[L]{\color{TextGrey!50}\@shorttitle}
+    \fancyhead[L]{\color{NormalTextColor!50}\@shorttitle}
 }{}
 
 %---------------------------------
-% REDUCE PDF SIZE
+% PDF DOCUMENT SETUP
 %---------------------------------
+\RequirePackage{pdf14}
+% Configure the PDF
 \pdfcompresslevel=9
 \pdfobjcompresslevel=3
 
 %---------------------------------
-% THINGS WE NEED TO DO AT THE START OF A DOCUMENT
+% ACTIONS AT THE START OF A DOCUMENT
 %---------------------------------
 
 \AtBeginDocument{
